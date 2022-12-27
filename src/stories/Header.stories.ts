@@ -49,6 +49,7 @@ export const LoggedInWithLongCountry : Story ={
   args: {
     user: {
       name: 'Jean Jack Pierro-Rosso',
+      age: 22
     },
     country:'Democratic Republic of Sao Tome and Principe'
   },
@@ -66,4 +67,4 @@ export const LoggedOut: Story = {
 
 
 
-//generateStoriesCodeSource(meta ,LoggedIn,LoggedOut,LoggedInWithLongCountry,LoggedInWithLongName)
+generateStoriesCodeSource(meta ,LoggedIn,LoggedOut,LoggedInWithLongCountry,LoggedInWithLongName)

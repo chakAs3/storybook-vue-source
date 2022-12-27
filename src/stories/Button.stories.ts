@@ -1,5 +1,7 @@
 // Button.stories.ts
-
+import { global } from '@storybook/global';
+import  * as events  from '@storybook/core-events'
+import { ClientApi,useChannel } from '@storybook/preview-api';
 import { generateCodeSource as generateStoriesCodeSource } from '../storybook-utils/story-source-code';
 import Button from './Button.vue';
 
@@ -7,7 +9,15 @@ import { Meta, StoryObj, StoryFn, VueRenderer, storiesOf } from '@storybook/vue3
 
 import * as _stories from './Header.stories'
 
-const meta: Meta<typeof Button> = {
+// import { prepareStory } from './csf/prepareStory';
+import { processCSFFile } from '@storybook/preview-api/dist/store';
+import { StoryStore } from '@storybook/preview-api/dist/store'
+// import  { StoryIndexGenerator } from '@storybook/core-server/dist/types/utils/StoryIndexGenerator'
+import { NormalizedStoriesSpecifier } from '@storybook/types'
+import type { StoryIndexGenerator } from '@storybook/core-server/dist/types/utils/StoryIndexGenerator';
+import { getStoryIndexGenerator } from '@storybook/core-server/dist/types/utils/getStoryIndexGenerator';
+
+const meta1: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -19,7 +29,7 @@ const meta: Meta<typeof Button> = {
   tags: ['docsPage'],
 };
 
-export default meta;
+export default meta1;
 type Story = StoryObj<typeof Button>;
 
 /*
@@ -38,7 +48,6 @@ export const Primary: Story = {
   args: {
     backgroundColor: '#fff00',
     label: ' 👍😍 Button 😍👍 ',
-    size: 'large',
     primary: true
   },
 };
@@ -53,11 +62,35 @@ export const Secondary: Story = {
 
 export const Tertiary: Story = {
   args: {
-    backgroundColor: 'red',
+    ...Primary.args,
     label: '📚📕📈🤓',
   },
 };
 
+
+export const Size: Story = {
+
+  render: (args: any) => ({
+    components: { Button },
+    setup() {
+      return { args };
+    },
+    template: `<Button size="large" v-bind="args" /> <Button size="medium" v-bind="args" /> <Button size="small" v-bind="args" />`,
+  }),
+  args: {
+    backgroundColor: '#fff00',
+    label: ' 👍😍 Button 😍👍 ',
+    primary: true
+  },
+}
+
+Size.parameters = {
+  docs: {
+    storyDescription: 'This shows how to use `size` on Button.',
+  },
+}
+
+Size.decorators = [() => ({ template: '<div style="margin: 3em;"><story/></div>' }),]
 
 export const Medium: Story = {
   args: {
@@ -76,15 +109,38 @@ export const Small: Story = {
 const keys = Object.keys(_stories);
 const __stories = []
 for (const key of keys) {
-  if (key != 'default')
+  console.log(key)
+  if (key != 'default' && key !='__namedExportsOrder')
     __stories.push(_stories[key])
 }
-console.log('--default. --',_stories.default)
-console.log('STOREIS',__stories)
-generateStoriesCodeSource(_stories.default,...__stories)
-generateStoriesCodeSource(meta, Primary, Secondary, Tertiary, Medium, Small)
+//console.log('--default. --',_stories.default)
+//console.log('STOREIS',__stories)
+//generateStoriesCodeSource(_stories.default,...__stories)
+generateStoriesCodeSource(meta1, Primary, Secondary, Tertiary, Medium, Small ,Size)
 
 
-
+// const store = new StoryStore();
+// const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
+//   { buildStoriesJson:true},
+//   {n},
+//   serverChannel
+// );
+// store.setProjectAnnotations(projectAnnotations);
+// store.initialize({ storyIndex, importFn, cache: false });
+ 
+//const csfFiles = await store.loadAllCSFFiles();
+//console.log('all Files ... ',csfFiles)
+// const { meta , stories } = processCSFFile(
+//   {
+//     default: _stories.default,...__stories
+  
+//   },
+//   './stories/component.js',
+//   'Component'
+// );
+// console.log('---------')
+// console.log( meta , stories)
+// console.log('---------')
+// stories
 
 

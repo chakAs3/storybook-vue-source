@@ -1,6 +1,11 @@
+//storybook/code/lib/source-loader/src/abstract-syntax-tree/parsers/parser-ts.js
 import { Meta, StoryObj } from "@storybook/vue3";
 import meta from "../stories/Header.stories";
 import { Component, VueElement } from "vue";
+import getParser from "./parsers"
+import { format as prettyFormat } from 'pretty-format';
+
+
 
 
 type Story = StoryObj<typeof T>;
@@ -28,7 +33,7 @@ export const storySourceCode = (
   };
 
   const argsKeys = args ? Object.keys(args) : [];
-  return templateSource.replace(
+  return templateSource.replaceAll(
     replacing,
     argsKeys
       .map(key => propToSource(key, args[key]))
@@ -43,20 +48,21 @@ export const storyParametersObject = (
   args: any,
   replacing = 'v-bind="args"'
 ) => {
-
-
-  const code = templateSource.indexOf('v-bind') > -1 ?
+  // console.log(' Template to render =======>:   ', templateSource)
+  let code = templateSource.indexOf('v-bind') > -1 ?
     storySourceCode(templateSource, args, replacing) :
     storySourceCodeProps(templateSource, args, replacing);
 
+  code = getParser('ts').format(code);
+
   if (!parameters) {
-    parameters = { docs: { source: { code } } };
+    parameters = { docs: { source: { code, language: 'html' } } };
   } else {
     if (!parameters.docs) {
       parameters.docs = { source: { code: code, language: 'html' } };
     } else {
       if (!parameters.docs.source) {
-        parameters.docs.source = { code };
+        parameters.docs.source = { code, language: 'html' };
       } else {
         parameters.docs.source.code = code;
       }
@@ -77,9 +83,9 @@ export const generateCodeSource = (meta: Meta<typeof T>, ...stories: Story[]) =>
 
   for (var story of stories)
     if (story.render)
-      story.parameters = storyParametersObject({ docs: false }, getTemplate(story.render), story.args);
+      story.parameters = storyParametersObject(story.parameters?.docs, getTemplate(story.render), story.args);
     else
-      story.parameters = storyParametersObject({ docs: false }, createDefaultTemplate(meta.component, story.args), story.args);
+      story.parameters = storyParametersObject(story.parameters?.docs, createDefaultTemplate(meta.component, story.args), story.args);
 }
 
 export const storySourceCodeProps = (
@@ -116,13 +122,13 @@ export const storySourceCodeProps = (
   return varDeclaration + "\n\n" + "<template>\n " + templateSource + "\n</template>"
 };
 
-function objectToString(obj: Record<string, any>): string {
+function objectToString(obj: Record<any, any>): string {
   if (obj == null) return 'null'
-  let text = '{';
+
+  let text = prettyFormat(obj).replace('Object', '')
   for (const x in obj) {
-    text += (text == '{' ? ' ' : ', ') + x + ':"' + obj[x] + '" ';
+    text = text.replace('"' + x + '"', x)
   }
-  text += '}'
   return text
 };
 

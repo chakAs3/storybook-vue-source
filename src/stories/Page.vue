@@ -6,7 +6,7 @@
       @logout="onLogout"
       @createAccount="onCreateAccount"
     />
-
+    <p> process starting with atomic components and ending with pages.</p><p> process starting with atomic components and ending with pages.</p><p> process starting with atomic components and ending with pages.</p>
     <section>
       <h2>Pages in Storybook</h2>
       <p>
