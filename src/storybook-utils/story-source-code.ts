@@ -134,7 +134,7 @@ function objectToString(obj: Record<any, any>): string {
 
 function createDefaultTemplate(component: any, args: any = {}): string {
   console.log(' Vue Component : ', component, component.__file)
-  let template = `<${component.name} `
+  let template = `<${component.name || component.__name} `
   template += argsToSource(args)//`v-bind="args"` 
   template += ` />`
   return template

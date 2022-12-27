@@ -1,0 +1,13 @@
+:root {
+  --color-primary: #142980;
+  --color-secondary: #1B8CE3;
+  --color-tertiary: #07CDE5;
+  --color-quaternary: #2EE4B3;
+  --color-quinary: #97369F;
+
+
+  /* Alerts Colors */
+  --color-alert-success: #36B707;
+  --color-alert-warning: #FF9505;
+  --color-alert-error: #D51F1F;
+}
