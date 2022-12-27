@@ -1,23 +1,12 @@
 // Button.stories.ts
-import { global } from '@storybook/global';
-import  * as events  from '@storybook/core-events'
-import { ClientApi,useChannel } from '@storybook/preview-api';
+
+
 import { generateCodeSource as generateStoriesCodeSource } from '../storybook-utils/story-source-code';
 import Button from './Button.vue';
 
-import { Meta, StoryObj, StoryFn, VueRenderer, storiesOf } from '@storybook/vue3';
+import { Meta, StoryObj } from '@storybook/vue3';
 
-import * as _stories from './Header.stories'
-
-// import { prepareStory } from './csf/prepareStory';
-import { processCSFFile } from '@storybook/preview-api/dist/store';
-import { StoryStore } from '@storybook/preview-api/dist/store'
-// import  { StoryIndexGenerator } from '@storybook/core-server/dist/types/utils/StoryIndexGenerator'
-import { NormalizedStoriesSpecifier } from '@storybook/types'
-import type { StoryIndexGenerator } from '@storybook/core-server/dist/types/utils/StoryIndexGenerator';
-import { getStoryIndexGenerator } from '@storybook/core-server/dist/types/utils/getStoryIndexGenerator';
-
-const meta1: Meta<typeof Button> = {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -29,7 +18,7 @@ const meta1: Meta<typeof Button> = {
   tags: ['docsPage'],
 };
 
-export default meta1;
+export default meta;
 type Story = StoryObj<typeof Button>;
 
 /*
@@ -106,41 +95,8 @@ export const Small: Story = {
   },
 };
 
-const keys = Object.keys(_stories);
-const __stories = []
-for (const key of keys) {
-  console.log(key)
-  if (key != 'default' && key !='__namedExportsOrder')
-    __stories.push(_stories[key])
-}
-//console.log('--default. --',_stories.default)
-//console.log('STOREIS',__stories)
-//generateStoriesCodeSource(_stories.default,...__stories)
-generateStoriesCodeSource(meta1, Primary, Secondary, Tertiary, Medium, Small ,Size)
 
+generateStoriesCodeSource(meta, Primary, Secondary, Tertiary, Medium, Small ,Size)
 
-// const store = new StoryStore();
-// const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
-//   { buildStoriesJson:true},
-//   {n},
-//   serverChannel
-// );
-// store.setProjectAnnotations(projectAnnotations);
-// store.initialize({ storyIndex, importFn, cache: false });
- 
-//const csfFiles = await store.loadAllCSFFiles();
-//console.log('all Files ... ',csfFiles)
-// const { meta , stories } = processCSFFile(
-//   {
-//     default: _stories.default,...__stories
-  
-//   },
-//   './stories/component.js',
-//   'Component'
-// );
-// console.log('---------')
-// console.log( meta , stories)
-// console.log('---------')
-// stories
 
 

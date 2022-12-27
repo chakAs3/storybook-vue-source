@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "prettier": "2.8.1",
+    "ant-design-vue": "^3.2.15",
     "vue": "^3.2.45"
   },
   "devDependencies": {
@@ -25,9 +26,12 @@
     "@storybook/vue3-vite": "^7.0.0-beta.13",
     "@types/prettier": "^2.7.2",
     "@vitejs/plugin-vue": "^4.0.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0-beta.13",
+    "tailwindcss": "^3.2.4",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
     "vue-tsc": "^1.0.11"
